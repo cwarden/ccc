@@ -112,6 +112,7 @@ var bullet1 = new pvc.BulletChart({
     bulletSize: 25,     // Bullet height
     bulletSpacing: 150, // Spacing between bullets
     bulletMargin: 30,   // Left margin
+    bulletTitlePosition: "left",   // Position of bullet title
 
     // Specific values
     bulletTitle: "My Test",
@@ -182,7 +183,8 @@ var bullet2 = new pvc.BulletChart({
     // Specific values
     bulletRanges: [30,80,100],
     bulletTitle: "My Test",
-    bulletSubtitle: "value"
+    bulletSubtitle: "value",
+    bulletTitlePosition: "top",
     });
     bullet2.setData(bullet_valueOnly);
     bullet2.render();
@@ -191,20 +193,20 @@ var bullet2 = new pvc.BulletChart({
         <div id="pvcBullet2"></div>
 
 <h4>Bullet chart based on a datasource with two columns: Title and value</h4>
-<textarea cols="55" rows="15" id="pvcBullet3Code">
+<textarea cols="55" rows="20" id="pvcBullet3Code">
 var bullet3 = new pvc.BulletChart({
     canvas: "pvcBullet3",
     width: 400,
-    height: 250,
+    height: 300,
     animate: false,
     title: "Bullet charts, title and value",
     titlePosition: "top",
     titleSize: 40,
 
     bulletSize: 25,
-    bulletSpacing: 50,
+    bulletSpacing: 60,
     bulletMargin: 100,
-    bulletTitlePosition: "left",
+    bulletTitlePosition: "bottom",
 
     // Specific values
     bulletRanges: [200,500,1000],
@@ -234,7 +236,8 @@ var bullet4 = new pvc.BulletChart({
     // Specific values
     bulletRanges: [200,500,1000],
     bulletMarkers: [600],
-    bulletSubtitle: "description"
+    bulletSubtitle: "description",
+    bulletTitlePosition: "left",
     });
     bullet4.setData(bullet_NameValueMarker);
     bullet4.render();
@@ -256,7 +259,8 @@ var bullet5 = new pvc.BulletChart({
     orientation: "vertical",
     bulletSize: 25,
     bulletSpacing: 80,
-    bulletMargin: 30
+    bulletMargin: 30,
+    bulletTitlePosition: "left"
     });
 
     bullet5.setData(bullet_NameDescValueMarkerRanges);

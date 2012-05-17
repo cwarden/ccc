@@ -114,31 +114,88 @@ pvc.BulletChartPanel = pvc.BasePanel.extend({
 			.height(this.height);
 
 		var anchor = myself.chart.options.orientation=="horizontal"?"left":"bottom";
-		var size, angle, align, titleLeftOffset, titleTopOffset, ruleAnchor, leftPos, topPos;
+		var size, angle, align, titleLeftOffset, titleTopOffset, ruleAnchor, leftPos, topPos, titleSpace;
 
 		if(myself.chart.options.orientation=="horizontal"){
 			size = this.width - this.chart.options.bulletMargin - 20;
 			angle=0;
-			align = myself.chart.options.bulletTitlePosition == "left" ? "right" : "left";
-			titleLeftOffset = 0;
-			titleTopOffset = myself.chart.options.bulletTitlePosition == "left" ? parseInt(myself.chart.options.bulletSize/2) : -12;
+			switch (myself.chart.options.bulletTitlePosition) {
+				case 'top':
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = 0;
+					align = 'left';
+					titleTopOffset = -12;
+					titleSpace = parseInt(myself.chart.options.titleSize/2);
+					break;
+				case 'bottom':
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = 0;
+					align = 'left';
+					titleTopOffset = myself.chart.options.bulletSize + 32;
+					titleSpace = 0;
+					break;
+				case 'right':
+					leftPos = 5;
+					titleLeftOffset = size + 5;
+					align = 'left';
+					titleTopOffset = parseInt(myself.chart.options.bulletSize/2);
+					titleSpace = 0;
+					break;
+				case 'left':
+				default:
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = 0;
+					titleTopOffset = parseInt(myself.chart.options.bulletSize/2);
+					align = 'right';
+					titleSpace = 0;
+			}
 			ruleAnchor = "bottom";
-			leftPos = this.chart.options.bulletMargin;
 			topPos = function(){
-				var titleOffset = myself.chart.options.bulletTitlePosition == "left" ? 0 : -20;
-				return this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing) - titleOffset;
+				return this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing) + titleSpace;
 			}
 		} else {
 			size = this.height - this.chart.options.bulletMargin - 20;
-			angle = -Math.PI/2;
-			align = "left";
-			titleLeftOffset = -12;
-			titleTopOffset = this.height - this.chart.options.bulletMargin - 20;
+			switch (myself.chart.options.bulletTitlePosition) {
+				case 'top':
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = 0;
+					align = 'left';
+					titleTopOffset = -20;
+					titleSpace = myself.chart.options.titleSize;
+					angle = 0;
+					topPos = undefined;
+					break;
+				case 'bottom':
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = 0;
+					align = 'left';
+					titleTopOffset = size + 20;
+					titleSpace = 0;
+					angle = 0;
+					topPos = 20;
+					break;
+				case 'right':
+					leftPos = 5;
+					titleLeftOffset = this.chart.options.bulletSize + 40;
+					align = 'left';
+					titleTopOffset = size;
+					titleSpace = 0;
+					angle = -Math.PI/2;
+					break;
+				case 'left':
+				default:
+					leftPos = this.chart.options.bulletMargin;
+					titleLeftOffset = -12;
+					titleTopOffset = this.height - this.chart.options.bulletMargin - 20;
+					align = 'left';
+					titleSpace = 0;
+					angle = -Math.PI/2;
+					topPos = undefined;
+			}
 			ruleAnchor = "right";
 			leftPos = function(){
 				return myself.chart.options.bulletMargin + this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing);
 			}
-			topPos = undefined;
 
 		}
 
