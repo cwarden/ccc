@@ -26,6 +26,7 @@ pvc.BulletChart = pvc.Base.extend({
 			bulletRanges: [],      // Ranges
 			bulletTitle: "Bullet", // Title
 			bulletSubtitle: "",    // Subtitle
+			bulletTitlePosition: "left", // "left" or "top"
 
 			crosstabMode: true,
 			seriesInRows: true,
@@ -113,23 +114,26 @@ pvc.BulletChartPanel = pvc.BasePanel.extend({
 			.height(this.height);
 
 		var anchor = myself.chart.options.orientation=="horizontal"?"left":"bottom";
-		var size, angle, align, titleOffset, ruleAnchor, leftPos, topPos;
+		var size, angle, align, titleLeftOffset, titleTopOffset, ruleAnchor, leftPos, topPos;
 
 		if(myself.chart.options.orientation=="horizontal"){
 			size = this.width - this.chart.options.bulletMargin - 20;
 			angle=0;
-			align = "right";
-			titleOffset = 0;
+			align = myself.chart.options.bulletTitlePosition == "left" ? "right" : "left";
+			titleLeftOffset = 0;
+			titleTopOffset = myself.chart.options.bulletTitlePosition == "left" ? parseInt(myself.chart.options.bulletSize/2) : -12;
 			ruleAnchor = "bottom";
 			leftPos = this.chart.options.bulletMargin;
 			topPos = function(){
-				return this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing);
+				var titleOffset = myself.chart.options.bulletTitlePosition == "left" ? 0 : -20;
+				return this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing) - titleOffset;
 			}
 		} else {
 			size = this.height - this.chart.options.bulletMargin - 20;
 			angle = -Math.PI/2;
 			align = "left";
-			titleOffset = -12;
+			titleLeftOffset = -12;
+			titleTopOffset = this.height - this.chart.options.bulletMargin - 20;
 			ruleAnchor = "right";
 			leftPos = function(){
 				return myself.chart.options.bulletMargin + this.index * (myself.chart.options.bulletSize + myself.chart.options.bulletSpacing);
@@ -143,7 +147,7 @@ pvc.BulletChartPanel = pvc.BasePanel.extend({
 			[pvc.BasePanel.orthogonalLength[anchor]](size)
 			[pvc.BasePanel.paralelLength[anchor]](this.chart.options.bulletSize)
 			.margin(20)
-			.left(leftPos) // titles will be on left always
+			.left(leftPos)
 			.top(topPos);
 
 
@@ -192,7 +196,8 @@ pvc.BulletChartPanel = pvc.BasePanel.extend({
 			.left(-10)
 			.textAlign(align)
 			.textBaseline("bottom")
-			.left(titleOffset)
+			.left(titleLeftOffset)
+			.top(titleTopOffset)
 			.text(function(d){
 				return d.title
 			});
@@ -202,7 +207,8 @@ pvc.BulletChartPanel = pvc.BasePanel.extend({
 			.textAngle(angle)
 			.textAlign(align)
 			.textBaseline("top")
-			.left(titleOffset)
+			.left(titleLeftOffset)
+			.top(titleTopOffset)
 			.text(function(d){
 				return d.subtitle
 			});
